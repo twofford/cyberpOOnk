@@ -10,6 +10,7 @@ require 'items'
 require 'rules'
 require 'skills'
 require 'stats'
+require 'utility'
 
 flip22 = Gun.new(
   ammo: Ammo.new(damage_die: D6, crit_multiplier: 2),
@@ -19,4 +20,4 @@ flip22 = Gun.new(
 
 batou = Character.new(name: 'Batou', stats: Stats.random, skills: Skills.random)
 
-puts batou.make_check(stat: :brawn, skill: :athleticism)
+puts batou.make_ranged_attack(weapon: flip22, range_to_target: 10)

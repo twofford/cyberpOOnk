@@ -20,8 +20,15 @@ class Weapon < Item
     @damage_attributes = damage_attributes
   end
 
-  def attack_check(bonus:)
-    D20.roll + bonus
+  def roll_damage(crit: false)
+    roll = damage_attributes.damage_die.roll
+    return roll * damage_attributes.crit_multiplier if crit
+
+    roll
+  end
+
+  def misfired?
+    false
   end
 end
 
@@ -34,6 +41,12 @@ class RangedWeapon < Weapon
   def initialize(damage_attributes:, max_range:)
     super(damage_attributes: damage_attributes)
     @max_range = max_range
+  end
+
+  def dc_for_target(range_to_target:)
+    dc_ranges.each do |dc, range|
+      return dc if range.include?(range_to_target)
+    end
   end
 
   private
@@ -66,13 +79,18 @@ class RangedWeapon < Weapon
     (very_hard_range.end + 1)..max_range
   end
 
-  def to_hit_ranges
+  def impossible_range
+    (max_range + 1)..Float::INFINITY
+  end
+
+  def dc_ranges
     {
       easy: easy_range,
       medium: medium_range,
       hard: hard_range,
       very_hard: very_hard_range,
-      nigh_impossible: nigh_impossible_range
+      nigh_impossible: nigh_impossible_range,
+      impossible: impossible_range
     }
   end
 end
@@ -99,6 +117,10 @@ class Gun < RangedWeapon
 
   def misfires_on
     1..[(20 - reliability), 1].max
+  end
+
+  def misfired?(roll:)
+    misfires_on.include?(roll)
   end
 end
 
