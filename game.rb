@@ -19,4 +19,4 @@ flip22 = Gun.new(
 
 batou = Character.new(name: 'Batou', stats: Stats.random, skills: Skills.random)
 
-puts batou.attack_with(weapon: flip22)
+puts batou.make_check(stat: :brawn, skill: :athleticism)

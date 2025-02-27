@@ -18,8 +18,12 @@ class Character
     @hp = DEFAULT_HP + @stats.brawn
   end
 
+  def make_check(stat: nil, skill: nil)
+    D20.roll + stats.send(stat) + skills.send(skill)
+  end
+
   def attack_with(weapon:)
-    weapon.attack_roll(bonus: calculate_attack_bonus(weapon: weapon))
+    weapon.attack_check(bonus: calculate_attack_bonus(weapon: weapon))
   end
 
   private
