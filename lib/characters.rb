@@ -66,14 +66,6 @@ class Character
     define_instance_var_attr_readers(obj: skills)
   end
 
-  def stat_names
-    stats.instance_variables.map { |var| var.to_s.delete_prefix('@').to_sym }
-  end
-
-  def skill_names
-    skills.instance_variables.map { |var| var.to_s.delete_prefix('@').to_sym }
-  end
-
   def roll_check(stat: nil, skill: nil)
     D20.roll + stats.send(stat) + skills.send(skill)
   end
