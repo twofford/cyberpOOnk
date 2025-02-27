@@ -21,3 +21,5 @@ flip22 = Gun.new(
 batou = Character.new(name: 'Batou', stats: Stats.random, skills: Skills.random)
 
 puts batou.make_ranged_attack(weapon: flip22, range_to_target: 10)
+
+puts batou.brawn

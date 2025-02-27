@@ -20,59 +20,61 @@ class Character
 
   def roll_check_vs_dc(dc:, stat:, skill:)
     modified_roll = roll_check(stat: stat, skill: skill)
-    Rules::DIFFICULTY_CLASSES[dc].each do |degree, range|
-      return degree if range.include?(modified_roll)
-    end
+
+    calculate_degree_of_success(dc: dc, roll: modified_roll)
   end
 
+  ## Works exactly like #roll_check_vs_dc but handles misfires for guns
   def roll_attack_check_vs_dc(weapon:, range_to_target:)
     raw_roll = D20.roll
     return :misfire if weapon.misfired?(roll: raw_roll)
-    
+
     dc = weapon.dc_for_target(range_to_target: range_to_target)
-    stat, skill = weapon_stat_and_skill(weapon: weapon)
+    stat, skill = weapon.stat_and_skill(user: self)
     modified_roll = raw_roll + stats.send(stat) + skills.send(skill)
-    Rules::DIFFICULTY_CLASSES[dc].each do |degree, range|
-      return degree if range.include?(modified_roll)
-    end
+
+    calculate_degree_of_success(dc: dc, roll: modified_roll)
   end
 
   def make_ranged_attack(weapon:, range_to_target:)
     result = roll_attack_check_vs_dc(weapon: weapon, range_to_target: range_to_target)
     case result
     when :full
-      "Crit! #{weapon.roll_damage(crit: true)} damage"
+      weapon.roll_damage(crit: true)
     when :partial
-      "Hit! #{weapon.roll_damage} damage"
+      weapon.roll_damage
     when :fail
-      "Miss!"
+      0
     when :misfire
-      "Misfire!"
-    else
-      nil
+      :misfire
     end
   end
 
   private
 
+  ## Creates attr_readers for each stat and skill
+  def method_missing(method_name)
+    return stats.send(method_name) if stat_names.include?(method_name)
+    return skills.send(method_name) if skill_names.include?(method_name)
+
+    super
+  end
+
+  def stat_names
+    stats.instance_variables.map { |var| var.to_s.delete_prefix('@').to_sym }
+  end
+
+  def skill_names
+    skills.instance_variables.map { |var| var.to_s.delete_prefix('@').to_sym }
+  end
+
   def roll_check(stat: nil, skill: nil)
     D20.roll + stats.send(stat) + skills.send(skill)
   end
 
-  def roll_attack_check(weapon:)
-    stat, skill = weapon_stat_and_skill(weapon: weapon)
-    roll_check(stat: stat, skill: skill)
-  end
-
-  def weapon_stat_and_skill(weapon:)
-    return %i[reflexes marksmanship] if weapon.is_a?(Gun)
-    return [best_of(:brawn, :reflexes), :melee_combat] if weapon.is_a?(MeleeWeapon)
-    return [best_of(:brawn, :reflexes), :martial_arts] if weapon.is_a?(MartialArt)
-
-    raise NotImplementedError
-  end
-
-  def best_of(stat1, stat2)
-    stats.send(stat1) > stats.send(stat2) ? stat1 : stat2
+  def calculate_degree_of_success(dc:, roll:)
+    Rules::DIFFICULTY_CLASSES[dc].each do |degree, range|
+      return degree if range.include?(roll)
+    end
   end
 end

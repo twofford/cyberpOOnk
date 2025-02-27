@@ -30,6 +30,14 @@ class Weapon < Item
   def misfired?
     false
   end
+
+  def stat_and_skill(user:)
+    return %i[reflexes marksmanship] if is_a?(Gun)
+    return [best_of_stats(stats: user.stats, stat1: :brawn, stat2: :reflexes), :melee_combat] if is_a?(MeleeWeapon)
+    return [best_of_stats(stats: user.stats, stat1: :brawn, stat2: :reflexes), :martial_arts] if is_a?(MartialArt)
+
+    raise NotImplementedError
+  end
 end
 
 class RangedWeapon < Weapon
