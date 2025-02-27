@@ -2,11 +2,11 @@
 
 $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/lib"
 
-require 'character'
-require 'cybernetic'
+require 'characters'
+require 'cybernetics'
 require 'dice'
-require 'feat'
-require 'item'
+require 'feats'
+require 'items'
 require 'rules'
 require 'skills'
 require 'stats'
