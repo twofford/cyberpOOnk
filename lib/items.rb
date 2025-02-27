@@ -9,10 +9,14 @@ class Weapon < Item
   def initialize(damage_attributes:)
     @damage_attributes = damage_attributes
   end
+
+  def attack_roll(bonus:)
+    D20.roll + bonus
+  end
 end
 
 class RangedWeapon < Weapon
-  ## The range (in feet) at which ranged attacks count as Easy
+  ## The upper limit (in feet) at which ranged attacks count as Easy
   EASY_RANGE_LIMIT = 10
 
   attr_reader :damage_attributes, :max_range
@@ -71,12 +75,20 @@ class MeleeWeapon < Weapon
   end
 end
 
+class MartialArt < Weapon
+end
+
 class Gun < RangedWeapon
-  attr_reader :damage_attributes
+  attr_reader :damage_attributes, :reliability
   alias ammo damage_attributes
 
-  def initialize(ammo:, max_range:)
+  def initialize(ammo:, max_range:, reliability:)
     super(damage_attributes: ammo, max_range: max_range)
+    @reliability = reliability
+  end
+
+  def misfires_on
+    1..[(20 - reliability), 1].max
   end
 end
 

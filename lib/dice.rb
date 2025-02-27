@@ -46,6 +46,12 @@ class D12 < Die
   end
 end
 
+class D20 < Die
+  def initialize
+    super(size: 20)
+  end
+end
+
 class D100 < Die
   def initialize
     super(size: 100)

@@ -32,7 +32,4 @@ class Rules
       full: 36..Float::INFINITY
     }
   }.freeze
-
-  VALID_DICE_SIZES = [4, 6, 8, 10, 12, 20, 100].freeze
-  VALID_CRIT_MULTIPLIERS = [2, 3, 4, 5, 6].freeze
 end
