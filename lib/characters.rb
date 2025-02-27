@@ -18,15 +18,10 @@ class Character
     @cybernetics = cybernetics
     @hp = DEFAULT_HP + @stats.brawn
 
-    # Defines attr_readers for each stat and skill
-    # Todo: Make a method that does this in `utility.rb`
-    stat_names.each do |stat_name|
-      self.class.send(:define_method, stat_name) { stats.send(stat_name) }
-    end
-
-    skill_names.each do |skill_name|
-      self.class.send(:define_method, skill_name) { skills.send(skill_name) }
-    end
+    ## Allows `char.brawn`, `char.marksmanship`
+    ## Instead of `char.stats.brawn`, `char.skills.marksmanship`
+    define_stat_attr_readers
+    define_skill_attr_readers
   end
 
   def roll_check_vs_dc(dc:, stat:, skill:)
@@ -64,11 +59,11 @@ class Character
   private
 
   def define_stat_attr_readers
-    raise NotImplementedError
+    define_instance_var_attr_readers(obj: stats)
   end
-  
+
   def define_skill_attr_readers
-    raise NotImplementedError
+    define_instance_var_attr_readers(obj: skills)
   end
 
   def stat_names
