@@ -7,6 +7,7 @@ class Character
 
   alias hit_points hp
   alias equipment items
+  alias cyberware cybernetics
 
   def initialize(name:, stats:, skills:, feats: [], items: [], cybernetics: [])
     @name = name
@@ -16,6 +17,16 @@ class Character
     @items = items
     @cybernetics = cybernetics
     @hp = DEFAULT_HP + @stats.brawn
+
+    # Defines attr_readers for each stat and skill
+    # Todo: Make a method that does this in `utility.rb`
+    stat_names.each do |stat_name|
+      self.class.send(:define_method, stat_name) { stats.send(stat_name) }
+    end
+
+    skill_names.each do |skill_name|
+      self.class.send(:define_method, skill_name) { skills.send(skill_name) }
+    end
   end
 
   def roll_check_vs_dc(dc:, stat:, skill:)
@@ -40,11 +51,11 @@ class Character
     result = roll_attack_check_vs_dc(weapon: weapon, range_to_target: range_to_target)
     case result
     when :full
-      weapon.roll_damage(crit: true)
+      weapon.roll_crit_damge
     when :partial
       weapon.roll_damage
     when :fail
-      0
+      :miss
     when :misfire
       :misfire
     end
@@ -52,12 +63,12 @@ class Character
 
   private
 
-  ## Creates attr_readers for each stat and skill
-  def method_missing(method_name)
-    return stats.send(method_name) if stat_names.include?(method_name)
-    return skills.send(method_name) if skill_names.include?(method_name)
-
-    super
+  def define_stat_attr_readers
+    raise NotImplementedError
+  end
+  
+  def define_skill_attr_readers
+    raise NotImplementedError
   end
 
   def stat_names

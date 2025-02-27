@@ -27,6 +27,10 @@ class Weapon < Item
     roll
   end
 
+  def roll_crit_damge
+    roll_damage(crit: true)
+  end
+
   def misfired?
     false
   end
