@@ -39,7 +39,7 @@ mook_skills = Skills.new(
   street_smarts: 1
 )
 
-## Make 5 mooks
+# Make 5 mooks
 mooks = (1..5).collect do |i|
   Character.new(
     name: "Mook #{i}",

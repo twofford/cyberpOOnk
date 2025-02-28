@@ -16,22 +16,23 @@ class Character
     @feats = feats
     @items = items
     @cybernetics = cybernetics
-    @hp = DEFAULT_HP + @stats.brawn
 
-    ## Allows `char.brawn`, `char.marksmanship`
-    ## Instead of `char.stats.brawn`, `char.skills.marksmanship`
+    # Allows `brawn`, `marksmanship`
+    # Instead of `stats.brawn`, `skills.marksmanship`
     define_stat_attr_readers
     define_skill_attr_readers
+
+    @hp = DEFAULT_HP + brawn
   end
 
-  def roll_check_vs_dc(dc:, stat:, skill:)
+  def roll_check_vs_difficulty_level(difficulty_level:, stat:, skill:)
     modified_roll = roll_check(stat: stat, skill: skill)
 
-    calculate_degree_of_success(dc: dc, roll: modified_roll)
+    calculate_degree_of_success(difficulty_level: difficulty_level, roll: modified_roll)
   end
 
   def make_ranged_attack(weapon:, range_to_target:)
-    result = roll_ranged_attack_check_vs_dc(weapon: weapon, range_to_target: range_to_target)
+    result = roll_ranged_attack_check_vs_difficulty_level(weapon: weapon, range_to_target: range_to_target)
     case result
     when :full
       weapon.roll_crit_damge
@@ -47,7 +48,7 @@ class Character
   end
 
   def make_melee_attack(weapon:)
-    result = roll_melee_attack_check_vs_dc(weapon: weapon)
+    result = roll_melee_attack_check_vs_difficulty_level(weapon: weapon)
     case result
     when :full
       weapon.roll_crit_damge
@@ -62,20 +63,22 @@ class Character
 
   private
 
-  def roll_ranged_attack_check_vs_dc(weapon:, range_to_target:)
+  def roll_ranged_attack_check_vs_difficulty_level(weapon:, range_to_target:)
     raw_roll = D20.roll
     return :misfire if weapon.misfired?(roll: raw_roll)
 
-    dc = weapon.dc_for_target(range_to_target: range_to_target)
+    difficulty_level = weapon.difficulty_level_for_target(range_to_target: range_to_target)
     stat, skill = weapon.stat_and_skill(user: self)
-    modified_roll = raw_roll + stats.send(stat) + skills.send(skill)
 
-    calculate_degree_of_success(dc: dc, roll: modified_roll)
+    # stat and skill are defined by define_stat_attr_reader and define_skill_attr_reader in the constructor
+    modified_roll = raw_roll + stat + skill
+
+    calculate_degree_of_success(difficulty_level: difficulty_level, roll: modified_roll)
   end
 
-  def roll_melee_attack_check_vs_dc(weapon:)
+  def roll_melee_attack_check_vs_difficulty_level(weapon:)
     stat, skill = weapon.stat_and_skill(user: self)
-    roll_check_vs_dc(dc: :easy, stat: stat, skill: skill)
+    roll_check_vs_difficulty_level(difficulty_level: :easy, stat: stat, skill: skill)
   end
 
   def define_stat_attr_readers
@@ -87,11 +90,12 @@ class Character
   end
 
   def roll_check(stat: nil, skill: nil)
-    D20.roll + stats.send(stat) + skills.send(skill)
+    # stat and skill are defined by define_stat_attr_reader and define_skill_attr_reader in the constructor
+    D20.roll + stat + skill
   end
 
-  def calculate_degree_of_success(dc:, roll:)
-    Rules::DIFFICULTY_CLASSES[dc].each do |degree, range|
+  def calculate_degree_of_success(difficulty_level:, roll:)
+    Rules::DIFFICULTY_LEVELS[difficulty_level].each do |degree, range|
       return degree if range.include?(roll)
     end
   end

@@ -5,7 +5,7 @@ require 'singleton'
 class Rules
   include Singleton
 
-  DIFFICULTY_CLASSES = {
+  DIFFICULTY_LEVELS = {
     easy: {
       fail: 1..5,
       partial: 6..15,

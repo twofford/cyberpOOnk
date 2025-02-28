@@ -28,7 +28,12 @@ class Weapon < Item
 end
 
 class RangedWeapon < Weapon
-  ## The upper limit (in feet) at which ranged attacks count as Easy
+  # TODO
+  # Difficulty Levels for Marksmanship checks with ranged weapons are currently determined by the weapon's max range.
+  # This is overly complicated.
+  # Instead, make a hard-coded set of ranges at which checks are easy, medium, hard, very hard, and nigh impossible.
+
+  # The upper limit (in feet) at which ranged attacks count as Easy
   EASY_RANGE_LIMIT = 10
 
   attr_reader :damage_attributes, :max_range
@@ -38,10 +43,11 @@ class RangedWeapon < Weapon
     @max_range = max_range
   end
 
-  def dc_for_target(range_to_target:)
-    dc_ranges.each do |dc, range|
-      return dc if range.include?(range_to_target)
+  def difficulty_level_for_target(range_to_target:)
+    difficulty_level_ranges.each do |dl, range|
+      return dl if range.include?(range_to_target)
     end
+    raise StandardError
   end
 
   private
@@ -78,7 +84,7 @@ class RangedWeapon < Weapon
     (max_range + 1)..Float::INFINITY
   end
 
-  def dc_ranges
+  def difficulty_level_ranges
     {
       easy: easy_range,
       medium: medium_range,
@@ -133,7 +139,7 @@ class Ammo < DamageAttributes
 
   def initialize(damage_die:, crit_multiplier:, quality: 0)
     super(damage_die: damage_die, crit_multiplier: crit_multiplier)
-    ## Ammo quality affects misfire chance and severity
+    # Ammo quality affects misfire chance and severity
     @quality = quality
   end
 end

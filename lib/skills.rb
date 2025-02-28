@@ -8,7 +8,7 @@ class Skills
               :influence, :intimidation, :investigation, :marksmanship, :martial_arts, :medicine, :melee_combat,
               :piloting, :seduction, :stealth, :street_smarts, :tracking
 
-  ## All skills are 0 by default
+  # All skills are 0 by default
   def initialize(
     athleticism: 0,
     awareness: 0,

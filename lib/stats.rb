@@ -8,7 +8,7 @@ class Stats
 
   attr_reader :brawn, :charm, :intelligence, :reflexes, :tech, :luck, :humanity
 
-  ## All stats except humanity are 0 by default
+  # All stats except humanity are 0 by default
   def initialize(brawn: 0, charm: 0, intelligence: 0, reflexes: 0, tech: 0, luck: 0, humanity: DEFAULT_HUMANITY)
     @brawn = brawn
     @charm = charm
