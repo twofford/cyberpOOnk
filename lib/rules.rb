@@ -32,4 +32,12 @@ class Rules
       full: 36..Float::INFINITY
     }
   }.freeze
+
+  RANGE_LIMITS = {
+    easy: 15,
+    medium: 45,
+    hard: 75,
+    very_hard: 150,
+    nigh_impossible: 300
+  }.freeze
 end

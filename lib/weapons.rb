@@ -29,12 +29,6 @@ class Weapon < Item
 end
 
 class RangedWeapon < Weapon
-  EASY_RANGE_LIMIT = 15
-  MEDIUM_RANGE_LIMIT = 45
-  HARD_RANGE_LIMIT = 75
-  VERY_HARD_RANGE_LIMIT = 150
-  NIGH_IMPOSSIBLE_RANGE_LIMIT = 300
-
   attr_reader :damage_attributes, :max_range
 
   def initialize(damage_attributes:, max_range:, mods: [])
@@ -52,27 +46,27 @@ class RangedWeapon < Weapon
   private
 
   def easy_range
-    1..EASY_RANGE_LIMIT
+    1..Rules::RANGE_LIMITS[:easy]
   end
 
   def medium_range
-    (EASY_RANGE_LIMIT + 1)..MEDIUM_RANGE_LIMIT
+    (Rules::RANGE_LIMITS[:easy] + 1)..Rules::RANGE_LIMITS[:medium]
   end
 
   def hard_range
-    (MEDIUM_RANGE_LIMIT + 1)..HARD_RANGE_LIMIT
+    (Rules::RANGE_LIMITS[:medium] + 1)..Rules::RANGE_LIMITS[:hard]
   end
 
   def very_hard_range
-    (HARD_RANGE_LIMIT + 1)..VERY_HARD_RANGE_LIMIT
+    (Rules::RANGE_LIMITS[:hard] + 1)..Rules::RANGE_LIMITS[:very_hard]
   end
 
   def nigh_impossible_range
-    (VERY_HARD_RANGE_LIMIT + 1)..NIGH_IMPOSSIBLE_RANGE_LIMIT
+    (Rules::RANGE_LIMITS[:very_hard] + 1)..Rules::RANGE_LIMITS[:nigh_impossible]
   end
 
   def impossible_range
-    (NIGH_IMPOSSIBLE_RANGE_LIMIT + 1)..Float::INFINITY
+    (Rules::RANGE_LIMITS[:nigh_impossible] + 1)..Float::INFINITY
   end
 
   def difficulty_level_ranges
