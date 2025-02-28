@@ -30,8 +30,39 @@ class Character
     calculate_degree_of_success(dc: dc, roll: modified_roll)
   end
 
-  ## Works exactly like #roll_check_vs_dc but handles misfires for guns
-  def roll_attack_check_vs_dc(weapon:, range_to_target:)
+  def make_ranged_attack(weapon:, range_to_target:)
+    result = roll_ranged_attack_check_vs_dc(weapon: weapon, range_to_target: range_to_target)
+    case result
+    when :full
+      weapon.roll_crit_damge
+    when :partial
+      weapon.roll_damage
+    when :fail
+      0
+    when :misfire
+      -1
+    else
+      raise NotImplementedError
+    end
+  end
+
+  def make_melee_attack(weapon:)
+    result = roll_melee_attack_check_vs_dc(weapon: weapon)
+    case result
+    when :full
+      weapon.roll_crit_damge
+    when :partial
+      weapon.roll_damage
+    when :fail
+      0
+    else
+      raise NotImplementedError
+    end
+  end
+
+  private
+
+  def roll_ranged_attack_check_vs_dc(weapon:, range_to_target:)
     raw_roll = D20.roll
     return :misfire if weapon.misfired?(roll: raw_roll)
 
@@ -42,21 +73,10 @@ class Character
     calculate_degree_of_success(dc: dc, roll: modified_roll)
   end
 
-  def make_ranged_attack(weapon:, range_to_target:)
-    result = roll_attack_check_vs_dc(weapon: weapon, range_to_target: range_to_target)
-    case result
-    when :full
-      weapon.roll_crit_damge
-    when :partial
-      weapon.roll_damage
-    when :fail
-      :miss
-    when :misfire
-      :misfire
-    end
+  def roll_melee_attack_check_vs_dc(weapon:)
+    stat, skill = weapon.stat_and_skill(user: self)
+    roll_check_vs_dc(dc: :easy, stat: stat, skill: skill)
   end
-
-  private
 
   def define_stat_attr_readers
     define_instance_var_attr_readers(obj: stats)
