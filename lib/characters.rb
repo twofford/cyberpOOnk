@@ -25,60 +25,47 @@ class Character
     @hp = DEFAULT_HP + brawn
   end
 
-  def roll_check_vs_difficulty_level(difficulty_level:, stat:, skill:)
-    modified_roll = roll_check(stat: stat, skill: skill)
-
+  def make_check_vs_difficulty_level(difficulty_level:, stat:, skill:)
+    modified_roll = make_check(stat: stat, skill: skill)
     calculate_degree_of_success(difficulty_level: difficulty_level, roll: modified_roll)
   end
 
   def make_ranged_attack(weapon:, range_to_target:)
-    result = roll_ranged_attack_check_vs_difficulty_level(weapon: weapon, range_to_target: range_to_target)
-    case result
-    when :full
-      weapon.roll_crit_damge
-    when :partial
-      weapon.roll_damage
-    when :fail
-      0
-    when :misfire
-      -1
-    else
-      raise NotImplementedError
-    end
+    result = make_ranged_attack_check_vs_difficulty_level(weapon: weapon, range_to_target: range_to_target)
+    return weapon.roll_crit_damge if result == :full
+    return weapon.roll_damage if result == :partial
+    return 0 if result == :fail
+    return -1 if result == :misfire
+
+    raise UnknownDifficultyLevelError
   end
 
   def make_melee_attack(weapon:)
-    result = roll_melee_attack_check_vs_difficulty_level(weapon: weapon)
-    case result
-    when :full
-      weapon.roll_crit_damge
-    when :partial
-      weapon.roll_damage
-    when :fail
-      0
-    else
-      raise NotImplementedError
-    end
+    result = make_melee_attack_check_vs_difficulty_level(weapon: weapon)
+    return weapon.roll_crit_damge if result == :full
+    return weapon.roll_damage if result == :partial
+    return 0 if result == :fail
+
+    raise UnknownDifficultyLevelError
   end
 
   private
 
-  def roll_ranged_attack_check_vs_difficulty_level(weapon:, range_to_target:)
+  def make_ranged_attack_check_vs_difficulty_level(weapon:, range_to_target:)
+    raise OutOfRangeError if range_to_target > weapon.max_range
+
     raw_roll = D20.roll
     return :misfire if weapon.misfired?(roll: raw_roll)
 
     difficulty_level = weapon.difficulty_level_for_target(range_to_target: range_to_target)
     stat, skill = weapon.stat_and_skill(user: self)
-
-    # stat and skill are defined by define_stat_attr_reader and define_skill_attr_reader in the constructor
-    modified_roll = raw_roll + stat + skill
-
+    modified_roll = raw_roll + send(stat) + send(skill)
     calculate_degree_of_success(difficulty_level: difficulty_level, roll: modified_roll)
   end
 
-  def roll_melee_attack_check_vs_difficulty_level(weapon:)
+  def make_melee_attack_check_vs_difficulty_level(weapon:)
     stat, skill = weapon.stat_and_skill(user: self)
-    roll_check_vs_difficulty_level(difficulty_level: :easy, stat: stat, skill: skill)
+    make_check_vs_difficulty_level(difficulty_level: :easy, stat: stat, skill: skill)
   end
 
   def define_stat_attr_readers
@@ -89,9 +76,8 @@ class Character
     define_instance_var_attr_readers(obj: skills)
   end
 
-  def roll_check(stat: nil, skill: nil)
-    # stat and skill are defined by define_stat_attr_reader and define_skill_attr_reader in the constructor
-    D20.roll + stat + skill
+  def make_check(stat: nil, skill: nil)
+    D20.roll + send(stat) + send(skill)
   end
 
   def calculate_degree_of_success(difficulty_level:, roll:)

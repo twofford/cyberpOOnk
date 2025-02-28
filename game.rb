@@ -5,6 +5,7 @@ $LOAD_PATH.unshift "#{File.dirname(__FILE__)}/lib"
 require 'characters'
 require 'cybernetics'
 require 'dice'
+require 'errors'
 require 'feats'
 require 'items'
 require 'rules'
