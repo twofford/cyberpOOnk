@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'pry'
 class Die
   attr_reader :size
 
@@ -14,6 +13,10 @@ class Die
 
   def *(other)
     Array.new(other) { self.class.new }
+  end
+
+  def self.+(other)
+    [self, other]
   end
 
   def self.roll
