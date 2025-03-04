@@ -9,13 +9,17 @@ class Weapon < Item
   end
 
   def roll_damage(crit: false)
-    roll = damage_attributes.damage_die.roll
+    roll = if damage_attributes.damage_dice.is_a?(Array)
+             damage_attributes.damage_dice.map(&:roll).sum
+           else
+             damage_attributes.damage_dice.roll
+           end
     return roll * damage_attributes.crit_multiplier if crit
 
     roll
   end
 
-  def roll_crit_damge
+  def roll_crit_damage
     roll_damage(crit: true)
   end
 
@@ -115,11 +119,11 @@ class Gun < RangedWeapon
   end
 end
 
-class DamageAttributes
-  attr_reader :damage_die, :crit_multiplier
+class DamageAttributes < Item
+  attr_reader :damage_dice, :crit_multiplier
 
-  def initialize(damage_die:, crit_multiplier:)
-    @damage_die = damage_die
+  def initialize(damage_dice:, crit_multiplier:)
+    @damage_dice = damage_dice
     @crit_multiplier = crit_multiplier
   end
 end
@@ -127,8 +131,8 @@ end
 class Ammo < DamageAttributes
   attr_reader :quality
 
-  def initialize(damage_die:, crit_multiplier:, quality: 0)
-    super(damage_die: damage_die, crit_multiplier: crit_multiplier)
+  def initialize(damage_dice:, crit_multiplier:, quality: 0)
+    super(damage_dice: damage_dice, crit_multiplier: crit_multiplier)
     # Ammo quality affects misfire chance and severity
     @quality = quality
   end
