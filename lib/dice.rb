@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'pry'
 class Die
   attr_reader :size
 
@@ -11,8 +12,16 @@ class Die
     rand(1..size)
   end
 
+  def *(other)
+    Array.new(other) { self.class.new }
+  end
+
   def self.roll
     rand(1..new.size)
+  end
+
+  def self.coerce(other)
+    [new, other]
   end
 end
 
