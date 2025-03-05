@@ -30,6 +30,36 @@ class Weapon < Item
 
     raise UnknownWeaponTypeError
   end
+
+  # TODO: add price instance variable, getter and setter
+  def calculate_price
+    price = 0
+
+    # Set price based on ammo damage dice
+    if damage_attributes.damage_dice.is_a?(Array)
+      damage_attributes.damage_dice.each do |die|
+        price += Rules::DAMAGE_DICE_COSTS[die.class.name.to_sym]
+      end
+    else
+      price += Rules::DAMAGE_DICE_COSTS[damage_attributes.damage_dice.name.to_sym]
+    end
+
+    # Adjust price based on ammo crit multiplier
+    price *= Rules::CRIT_MULTIPLIER_COSTS[damage_attributes.crit_multiplier]
+
+    # Adjust price based on ammo quality
+    price *= Rules::AMMO_QUALITY_COSTS[ammo.quality]
+
+    # Adjust base price based on max range
+    Rules::RANGE_LIMIT_COSTS.each do |range, multiplier|
+      price *= multiplier if range.include?(max_range)
+    end
+
+    # Adjust price based on reliability
+    price *= Rules::RELIABILITY_COSTS[reliability]
+
+    to_nearest_hundred(num: price)
+  end
 end
 
 class RangedWeapon < Weapon
@@ -111,7 +141,7 @@ class Gun < RangedWeapon
   end
 
   def misfire_range
-    1..[(20 - reliability + ammo.quality), 1].max
+    1..[5 - ammo.quality, 1].max
   end
 
   def misfired?(roll:)
