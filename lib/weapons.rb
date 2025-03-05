@@ -6,6 +6,7 @@ class Weapon < Item
   def initialize(damage_attributes:, mods: [])
     @damage_attributes = damage_attributes
     @mods = mods
+    super()
   end
 
   def roll_damage(crit: false)
@@ -31,7 +32,6 @@ class Weapon < Item
     raise UnknownWeaponTypeError
   end
 
-  # TODO: add price instance variable, getter and setter
   def calculate_price
     price = 0
 

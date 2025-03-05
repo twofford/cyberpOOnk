@@ -3,9 +3,13 @@
 class Item
   attr_reader :price
 
-  def set_price
+  def initialize
     @price = calculate_price
   end
+
+  # def set_price
+  #   @price = calculate_price
+  # end
 
   def calculate_price
     raise NotImplementedError
