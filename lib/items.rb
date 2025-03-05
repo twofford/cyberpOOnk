@@ -7,10 +7,6 @@ class Item
     @price = calculate_price
   end
 
-  # def set_price
-  #   @price = calculate_price
-  # end
-
   def calculate_price
     raise NotImplementedError
   end

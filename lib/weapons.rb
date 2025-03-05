@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Weapon < Item
-  attr_reader :damage_attributes
+  attr_reader :damage_attributes, :max_range
 
   def initialize(damage_attributes:, mods: [])
     @damage_attributes = damage_attributes
@@ -63,11 +63,11 @@ class Weapon < Item
 end
 
 class RangedWeapon < Weapon
-  attr_reader :damage_attributes, :max_range
+  attr_reader :damage_attributes
 
   def initialize(damage_attributes:, max_range:, mods: [])
-    super(damage_attributes: damage_attributes, mods: mods)
     @max_range = max_range
+    super(damage_attributes: damage_attributes, mods: mods)
   end
 
   def difficulty_level_for_target(range_to_target:)
@@ -135,9 +135,9 @@ class Gun < RangedWeapon
   alias ammo damage_attributes
 
   def initialize(ammo:, max_range:, reliability:, mods: [])
+    @reliability = reliability
     super(damage_attributes: ammo, max_range: max_range, mods: mods)
 
-    @reliability = reliability
   end
 
   def misfire_range
@@ -162,8 +162,8 @@ class Ammo < DamageAttributes
   attr_reader :quality
 
   def initialize(damage_dice:, crit_multiplier:, quality: 0)
-    super(damage_dice: damage_dice, crit_multiplier: crit_multiplier)
-    # Ammo quality affects misfire chance and severity
+    # Ammo quality afffects misfire chance and severity
     @quality = quality
+    super(damage_dice: damage_dice, crit_multiplier: crit_multiplier)
   end
 end
