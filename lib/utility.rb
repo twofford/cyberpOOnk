@@ -10,3 +10,7 @@ def define_instance_var_attr_readers(obj:)
     self.class.send(:define_method, name) { obj.send(name) }
   end
 end
+
+def to_nearest_hundred(num:)
+  (num / 100.0).round * 100
+end
