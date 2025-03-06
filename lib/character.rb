@@ -10,13 +10,6 @@ class Character
   alias cyberware cybernetics
 
   def initialize(name:, stats:, skills:, feats: [], items: [], cybernetics: [])
-    type_check_arg(arg: name, klass: Symbol)
-    type_check_arg(arg: stats, klass: Stats)
-    type_check_arg(arg: skills, klass: Skills)
-    type_check_arg(arg: feats, klass: Feat)
-    type_check_arg(arg: items, klass: Item)
-    type_check_arg(arg: cybernetics, klass: Cybernetic)
-
     @name = name
     @stats = stats
     @skills = skills

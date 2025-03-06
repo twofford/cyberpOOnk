@@ -4,7 +4,7 @@ class Check
   attr_reader :performer, :stat, :skill, :modifiers, :difficulty_level
 
   def initialize(performer:, stat:, skill:, difficulty_level:, modifiers: [])
-    type_check_arg(arg: performer, klass: Character),
+    type_check_arg(arg: performer, klass: Character)
     type_check_arg(arg: stat, klass: Symbol)
     type_check_arg(arg: skill, klass: Symbol)
     type_check_arg(arg: difficulty_level, klass: Symbol)

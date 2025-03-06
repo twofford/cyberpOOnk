@@ -37,3 +37,8 @@ autoload :Rules,                        'rules'
 autoload :Skills,                       'skills'
 autoload :Stats,                        'stats'
 autoload :Weapon,                       'weapon'
+
+# Monkey patch to make sig available everywhere
+class Module
+  include T::Sig
+end
