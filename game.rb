@@ -6,7 +6,9 @@ require 'utility'
 
 autoload :Ammo,                         'ammo'
 autoload :Armor,                        'armor'
+autoload :Attack,                       'attack'
 autoload :Character,                    'character'
+autoload :Check,                        'check'
 autoload :Cyberdeck,                    'items'
 autoload :Cybernetic,                   'cybernetic'
 autoload :DamageAttributes,             'damage_attributes'
@@ -22,6 +24,7 @@ autoload :GameError,                    'errors'
 autoload :OutOfRangeError,              'errors'
 autoload :MisfireError,                 'errors'
 autoload :UnknownDifficultyLevelError,  'errors'
+autoload :UnknownDegreeOfSuccessError,  'errors'
 autoload :UnknownWeaponTypeError,       'errors'
 autoload :Feat,                         'feat'
 autoload :Gun,                          'gun'
@@ -48,6 +51,8 @@ railgun = Gun.new(
   max_range: 1000,
   reliability: 3
 )
+
+Character.new(name: :Batou, stats: Stats.random, skills: Skills.random)
 
 puts flip22.price
 puts railgun.price

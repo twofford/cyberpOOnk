@@ -17,6 +17,10 @@ class Stats
     @tech = tech
     @luck = luck
     @humanity = humanity
+    
+    instance_variables.each do |ivar|
+      type_check_arg(arg: instance_variable_get(ivar), klass: Integer, options: { between: -10..10 })
+    end
   end
 
   def self.random

@@ -10,6 +10,13 @@ class Character
   alias cyberware cybernetics
 
   def initialize(name:, stats:, skills:, feats: [], items: [], cybernetics: [])
+    type_check_arg(arg: name, klass: Symbol)
+    type_check_arg(arg: stats, klass: Stats)
+    type_check_arg(arg: skills, klass: Skills)
+    type_check_arg(arg: feats, klass: Feat)
+    type_check_arg(arg: items, klass: Item)
+    type_check_arg(arg: cybernetics, klass: Cybernetic)
+
     @name = name
     @stats = stats
     @skills = skills
@@ -23,6 +30,21 @@ class Character
     define_skill_attr_readers
 
     @hp = DEFAULT_HP + brawn
+  end
+
+  def attack!(target:)
+    Attack.new(attacker: self, target: target)
+    # should return an Attack instance
+    # should accept a character as an arg
+    # Attack class should implement #with
+    # with should take a weapon as an arg
+    # and calculate the attack against the target
+    # should also implement #at
+    # at should take an integer range as a target
+    # once the Attack instance has the attacker, target,
+    # weapon and range, the attack can be calculated
+    # can then move all the attack methods here
+    # to the attack class
   end
 
   def make_check_vs_difficulty_level(difficulty_level:, stat:, skill:)

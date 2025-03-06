@@ -12,5 +12,8 @@ end
 class UnknownDifficultyLevelError < GameError
 end
 
+class UnknownDegreeOfSuccessError < GameError
+end
+
 class UnknownWeaponTypeError < GameError
 end

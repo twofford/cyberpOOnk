@@ -4,6 +4,9 @@ class Weapon < Item
   attr_reader :damage_attributes, :max_range
 
   def initialize(damage_attributes:, mods: [])
+    type_check_arg(arg: damage_attributes, klass: DamageAttributes)
+    type_check_arg(arg: mods, klass: Mod)
+
     @damage_attributes = damage_attributes
     @mods = mods
     super()

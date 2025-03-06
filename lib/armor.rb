@@ -6,6 +6,8 @@ class Armor < Item
   alias damage_reduction dr
 
   def initialize(dr:)
+    type_check_arg(arg: dr, klass: Integer)
+
     @dr = dr
   end
 end

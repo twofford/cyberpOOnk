@@ -5,6 +5,8 @@ class Item
 
   def initialize
     @price = calculate_price
+
+    type_check_arg(arg: price, klass: Integer)
   end
 
   def calculate_price
