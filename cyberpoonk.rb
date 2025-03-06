@@ -37,22 +37,3 @@ autoload :Rules,                        'rules'
 autoload :Skills,                       'skills'
 autoload :Stats,                        'stats'
 autoload :Weapon,                       'weapon'
-
-# Weapons
-
-flip22 = Gun.new(
-  ammo: Ammo.new(damage_dice: D6, crit_multiplier: 2, quality: -1),
-  max_range: 50,
-  reliability: -3
-)
-
-railgun = Gun.new(
-  ammo: Ammo.new(damage_dice: 6 * D10, crit_multiplier: 5, quality: 3),
-  max_range: 1000,
-  reliability: 3
-)
-
-Character.new(name: :Batou, stats: Stats.random, skills: Skills.random)
-
-puts flip22.price
-puts railgun.price
