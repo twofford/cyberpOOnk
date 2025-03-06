@@ -28,10 +28,5 @@ railgun = Gun.new(
   reliability: 3
 )
 
-# puts flip22.calculate_price
-# puts railgun.calculate_price
-flip22.set_price
-railgun.set_price
-
 puts flip22.price
 puts railgun.price
