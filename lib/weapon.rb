@@ -47,6 +47,9 @@ class Weapon < Item
     # Adjust price based on ammo crit multiplier
     price *= Constants::CRIT_MULTIPLIER_COSTS[damage_attributes.crit_multiplier]
 
+    # Only guns have ammo quality, max_range, and reliability
+    return to_nearest_hundred(num: price) unless is_a?(Gun)
+
     # Adjust price based on ammo quality
     price *= Constants::AMMO_QUALITY_COSTS[ammo.quality]
 
