@@ -1,68 +1,69 @@
 # frozen_string_literal: true
 
 class Attack < Check
-  attr_reader :attacker, :target, :modifiers, :range, :weapon
+  attr_reader :attacker, :target, :range_to_target, :weapon, :modifiers
 
-  def initialize(attacker:, target:, modifiers: [], range: nil, weapon: nil)
-    super(performer: attacker, modifiers: modifiers)
+  def initialize(attacker:, target:, range_to_target:, weapon:, modifiers: [])
     @target = target
-    @range = range
+    @range_to_target = range_to_target
     @weapon = weapon
+    super(
+      performer: attacker,
+      difficulty_level: calculate_difficulty_level,
+      stat: choose_stat,
+      skill: choose_skill,
+      modifiers: modifiers
+    )
   end
 
-  def at(range:)
-    @range = range
-    # check if all vars are present. if so, call make and
-    # return the result
-  end
+  def make
+    raise OutOfRangeError if range_to_target > weapon.max_range
 
-  def with(weapon:)
-    @weapon = weapon
-    # check if all vars are present. if so, call make and
-    # return the result
+    super
   end
 
   private
 
-  def calculate_difficulty_level(range_to_target:)
-    difficulty_level_ranges.each do |dl, range|
+  def calculate_difficulty_level
+    Constants::RANGED_ATTACK_DLS.each do |dl, range|
       return dl if range.include?(range_to_target)
     end
-    raise UnkownDifficultyLevelError
+    raise UnknownDifficultyLevelError
   end
 
-  def easy_range
-    1..Rules::RANGE_LIMITS[:easy]
+  def choose_stat
+    return :reflexes if weapon.is_a?(RangedWeapon)
+
+    return :brawn if weapon.is_a?(MeleeWeapon)
+
+    raise UnknownWeaponTypeError
   end
 
-  def medium_range
-    (Rules::RANGE_LIMITS[:easy] + 1)..Rules::RANGE_LIMITS[:medium]
+  def choose_skill
+    return :marksmanship if weapon.is_a?(Gun)
+
+    return :melee_combat if weapon.is_a?(MeleeWeapon)
+
+    return :martial_arts if weapon.is_a?(MartialArt)
+
+    raise UnknownWeaponTypeError
   end
 
-  def hard_range
-    (Rules::RANGE_LIMITS[:medium] + 1)..Rules::RANGE_LIMITS[:hard]
-  end
+  # def make_ranged
+  #   raise OutOfRangeError if range > weapon.range
 
-  def very_hard_range
-    (Rules::RANGE_LIMITS[:hard] + 1)..Rules::RANGE_LIMITS[:very_hard]
-  end
+  #   raw_roll = D20.roll
+  #   return :misfire if weapon.misfired?(roll: raw_roll)
 
-  def nigh_impossible_range
-    (Rules::RANGE_LIMITS[:very_hard] + 1)..Rules::RANGE_LIMITS[:nigh_impossible]
-  end
+  #   difficulty_level = calculate_difficulty_level(range_to_target: range_to_target)
+  #   stat, skill = stat_and_skill
+  #   modified_roll = raw_roll + attacker.public_send(stat) + attacker.public_send(skill) + modifiers.sum
+  #   calculate_degree_of_success(difficulty_level: difficulty_level, roll: modified_roll)
+  # end
 
-  def impossible_range
-    (Rules::RANGE_LIMITS[:nigh_impossible] + 1)..Float::INFINITY
-  end
+  # def make_melee
+  #   raise OutOfRangeError if range_to_target > weapon.max_range
 
-  def difficulty_level_ranges
-    {
-      easy: easy_range,
-      medium: medium_range,
-      hard: hard_range,
-      very_hard: very_hard_range,
-      nigh_impossible: nigh_impossible_range,
-      impossible: impossible_range
-    }
-  end
+  #   stat_and_skill
+  # end
 end
