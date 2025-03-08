@@ -96,7 +96,7 @@ class Character
   end
 
   def calculate_degree_of_success(difficulty_level:, roll:)
-    Rules::DIFFICULTY_LEVELS[difficulty_level].each do |degree, range|
+    Constants::DIFFICULTY_LEVELS[difficulty_level].each do |degree, range|
       return degree if range.include?(roll)
     end
   end
