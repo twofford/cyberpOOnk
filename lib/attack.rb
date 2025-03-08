@@ -4,6 +4,7 @@ class Attack < Check
   attr_reader :attacker, :target, :range_to_target, :weapon, :modifiers
 
   def initialize(attacker:, target:, range_to_target:, weapon:, modifiers: [])
+    @attacker = attacker
     @target = target
     @range_to_target = range_to_target
     @weapon = weapon
@@ -48,22 +49,4 @@ class Attack < Check
 
     raise UnknownWeaponTypeError
   end
-
-  # def make_ranged
-  #   raise OutOfRangeError if range > weapon.range
-
-  #   raw_roll = D20.roll
-  #   return :misfire if weapon.misfired?(roll: raw_roll)
-
-  #   difficulty_level = calculate_difficulty_level(range_to_target: range_to_target)
-  #   stat, skill = stat_and_skill
-  #   modified_roll = raw_roll + attacker.public_send(stat) + attacker.public_send(skill) + modifiers.sum
-  #   calculate_degree_of_success(difficulty_level: difficulty_level, roll: modified_roll)
-  # end
-
-  # def make_melee
-  #   raise OutOfRangeError if range_to_target > weapon.max_range
-
-  #   stat_and_skill
-  # end
 end
