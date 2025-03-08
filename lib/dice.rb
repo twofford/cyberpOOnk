@@ -4,8 +4,6 @@ class Die
   attr_reader :size
 
   def initialize(size:)
-    type_check_arg(arg: size, klass: Integer)
-
     @size = size
   end
 

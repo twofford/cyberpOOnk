@@ -51,10 +51,6 @@ class Skills
     @stealth = stealth
     @street_smarts = street_smarts
     @tracking = tracking
-
-    instance_variables.each do |ivar|
-      type_check_arg(arg: instance_variable_get(ivar), klass: Integer, options: { between: 0..10 })
-    end
   end
 
   def self.random

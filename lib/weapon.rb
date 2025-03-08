@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 class Weapon < Item
-  attr_reader :damage_attributes, :max_range
+  attr_reader :damage_attributes, :max_range, :type
 
   def initialize(damage_attributes:, mods: [])
-    type_check_arg(arg: damage_attributes, klass: DamageAttributes)
-    type_check_arg(arg: mods, klass: Mod)
-
     @damage_attributes = damage_attributes
     @mods = mods
     super()
@@ -41,25 +38,25 @@ class Weapon < Item
     # Set price based on ammo damage dice
     if damage_attributes.damage_dice.is_a?(Array)
       damage_attributes.damage_dice.each do |die|
-        price += Rules::DAMAGE_DICE_COSTS[die.class.name.to_sym]
+        price += Constants::DAMAGE_DICE_COSTS[die.class.name.to_sym]
       end
     else
-      price += Rules::DAMAGE_DICE_COSTS[damage_attributes.damage_dice.name.to_sym]
+      price += Constants::DAMAGE_DICE_COSTS[damage_attributes.damage_dice.name.to_sym]
     end
 
     # Adjust price based on ammo crit multiplier
-    price *= Rules::CRIT_MULTIPLIER_COSTS[damage_attributes.crit_multiplier]
+    price *= Constants::CRIT_MULTIPLIER_COSTS[damage_attributes.crit_multiplier]
 
     # Adjust price based on ammo quality
-    price *= Rules::AMMO_QUALITY_COSTS[ammo.quality]
+    price *= Constants::AMMO_QUALITY_COSTS[ammo.quality]
 
     # Adjust base price based on max range
-    Rules::RANGE_LIMIT_COSTS.each do |range, multiplier|
+    Constants::RANGE_LIMIT_COSTS.each do |range, multiplier|
       price *= multiplier if range.include?(max_range)
     end
 
     # Adjust price based on reliability
-    price *= Rules::RELIABILITY_COSTS[reliability]
+    price *= Constants::RELIABILITY_COSTS[reliability]
 
     to_nearest_hundred(num: price)
   end

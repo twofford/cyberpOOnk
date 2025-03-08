@@ -14,20 +14,3 @@ end
 def to_nearest_hundred(num:)
   (num / 100.0).round * 100
 end
-
-def type_check_arg(arg:, klass:, options: {})
-  if options[:between]
-    raise TypeError, 'options[:between] must be a Range' unless options[:between].is_a?(Range)
-    raise TypeError, "#{arg} must be in range #{options[:between]}" unless options[:between].include?(arg)
-  end
-
-  if arg.is_a?(Array)
-    return if arg.empty?
-
-    raise TypeError, "#{arg} must be an Array of #{klass.pluralize}" unless arg.all? do |el|
-      el.is_a?(klass) || el.new.is_a?(klass)
-    end
-  else
-    raise TypeError, "#{arg} must be a #{klass}" unless arg.is_a?(klass) || arg.new.is_a?(klass)
-  end
-end
