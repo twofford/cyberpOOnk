@@ -9,6 +9,7 @@ autoload :Armor,                        'armor'
 autoload :Attack,                       'attack'
 autoload :Character,                    'character'
 autoload :Check,                        'check'
+autoload :Constants,                    'constants'
 autoload :Cyberdeck,                    'items'
 autoload :Cybernetic,                   'cybernetic'
 autoload :DamageAttributes,             'damage_attributes'
@@ -32,13 +33,16 @@ autoload :Item,                         'item'
 autoload :MartialArt,                   'martial_art'
 autoload :MeleeWeapon,                  'melee_weapon'
 autoload :Mod,                          'mod'
+autoload :RangedAttack,                 'ranged_attack'
 autoload :RangedWeapon,                 'ranged_weapon'
-autoload :Rules,                        'rules'
 autoload :Skills,                       'skills'
 autoload :Stats,                        'stats'
 autoload :Weapon,                       'weapon'
 
-# Monkey patch to make sig available everywhere
-class Module
-  include T::Sig
-end
+### Example usage
+
+char = Character.new(name: 'Batou', stats: Stats.random, skills: Skills.random)
+ammo = Ammo.new(damage_dice: D6, crit_multiplier: 2, quality: 0)
+gun = Gun.new(ammo: ammo, reliability: 0, max_range: 50)
+
+puts Attack.new(attacker: char, target: char, range_to_target: 10, weapon: gun, modifiers: []).make
