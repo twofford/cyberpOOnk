@@ -31,6 +31,7 @@ autoload :Feat,                         'feat'
 autoload :Gun,                          'gun'
 autoload :Item,                         'item'
 autoload :MartialArt,                   'martial_art'
+autoload :MeleeAttack,                  'melee_attack'
 autoload :MeleeWeapon,                  'melee_weapon'
 autoload :Mod,                          'mod'
 autoload :RangedAttack,                 'ranged_attack'
@@ -44,5 +45,8 @@ autoload :Weapon,                       'weapon'
 char = Character.new(name: 'Batou', stats: Stats.random, skills: Skills.random)
 ammo = Ammo.new(damage_dice: D6, crit_multiplier: 2, quality: 0)
 gun = Gun.new(ammo: ammo, reliability: 0, max_range: 50)
+knife = MeleeWeapon.new(damage_attributes: DamageAttributes.new(damage_dice: D4, crit_multiplier: 2), mods: [])
 
 puts Attack.new(attacker: char, target: char, range_to_target: 10, weapon: gun, modifiers: []).make
+puts RangedAttack.new(attacker: char, target: char, range_to_target: 10, weapon: gun, modifiers: []).make
+puts MeleeAttack.new(attacker: char, target: char, weapon: knife, modifiers: []).make
