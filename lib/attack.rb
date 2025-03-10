@@ -19,8 +19,6 @@ class Attack < Check
 
   def make
     raise OutOfRangeError if range_to_target > weapon.max_range
-
-    degree_of_success = super
   end
 
   private
