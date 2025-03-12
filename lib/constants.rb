@@ -106,4 +106,10 @@ class Constants
     2 => 1.5,
     3 => 1.75
   }.freeze
+
+  COVER_TYPES = {
+    LIGHT: -5,
+    MEDIUM: -10,
+    HEAVY: -15
+  }.freeze
 end

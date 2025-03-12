@@ -17,3 +17,6 @@ end
 
 class UnknownWeaponTypeError < GameError
 end
+
+class UnknownCoverTypeError < GameError
+end
