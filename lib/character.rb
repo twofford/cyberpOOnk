@@ -25,7 +25,6 @@ class Character
     @hp = DEFAULT_HP + brawn
   end
 
-
   private
 
   def define_stat_attr_readers
@@ -34,5 +33,16 @@ class Character
 
   def define_skill_attr_readers
     define_instance_var_attr_readers(obj: skills)
+  end
+
+  def self.random
+    new(
+      name: 'Johnny Silverhand',
+      stats: Stats.random,
+      skills: Skills.random,
+      feats: [],
+      items: [],
+      cybernetics: []
+    )
   end
 end
