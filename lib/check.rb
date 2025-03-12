@@ -21,7 +21,7 @@ class Check
     D20.roll + performer.public_send(stat) + performer.public_send(skill) + modifiers.sum
   end
 
-  def calculate_degree_of_success(difficulty_level:, roll:)
+  def calculate_degree_of_success
     Constants::DIFFICULTY_LEVELS[difficulty_level].each do |degree, range|
       return degree if range.include?(roll)
     end
