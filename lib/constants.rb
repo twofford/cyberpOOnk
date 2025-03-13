@@ -62,14 +62,6 @@ class Constants
     impossible: IMPOSSIBLE_RANGE
   }.freeze
 
-  RANGE_LIMIT_COSTS = {
-    0..15 => 0.75,
-    45..75 => 1.5,
-    75..150 => 2.25,
-    150..300 => 3.0,
-    300..Float::INFINITY => 3.75
-  }.freeze
-
   DAMAGE_DICE_COSTS = {
     D4: 20_000,
     D6: 35_000,
@@ -77,6 +69,14 @@ class Constants
     D10: 75_000,
     D12: 120_000,
     D20: 650_000
+  }.freeze
+
+  RANGE_LIMIT_COSTS = {
+    0..15 => 0.75,
+    45..75 => 1.5,
+    75..150 => 2.25,
+    150..300 => 3.0,
+    300..Float::INFINITY => 3.75
   }.freeze
 
   CRIT_MULTIPLIER_COSTS = {
