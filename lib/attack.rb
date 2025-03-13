@@ -47,20 +47,4 @@ class Attack < Check
 
     raise UnknownWeaponTypeError
   end
-
-  def target_behind_cover(type)
-    return -5 if type == Constants::COVER_TYPES[LIGHT]
-    return -10 if type == Constants::COVER_TYPES[MEDIUM]
-    return -15 if type == Constants::COVER_TYPES[HEAVY]
-
-    raise UnknownCoverTypeError
-  end
-
-  def akimbo
-    -10
-  end
-
-  def aimed
-    + 10
-  end
 end
