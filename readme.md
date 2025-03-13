@@ -14,7 +14,8 @@ I wanted the following things when I designed this game:
 6. A robust lifepath system, ala Cyberpunk 2020 and The Burning Wheel
 7. Easy to make new characters - it should take less than 10 minutes
 8. Clocks (I'm calling them Countdowns) ala Apocalypse World and Blades in the Dark
-9. Minimal veribage - most ttrpg books are way too long!
+9. Heat, ala Cities Without Number
+10. Minimal veribage - most ttrpg books are way too long!
 
 ## Stats
 
@@ -154,3 +155,4 @@ Activate, Analyze, Append, Blind, Deactivate, Decrypt, Defend, Delude, Erase, Fi
 6. Design Cover system
 7. Create armor, weapons, items, cyberdecks, mods
 8. Update combat flowchart
+9. Design Lifestyle Expenses system
