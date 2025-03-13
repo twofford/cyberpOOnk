@@ -9,8 +9,10 @@ class Gun < RangedWeapon
     super(damage_attributes: ammo, max_range: max_range, mods: mods)
   end
 
+  private
+
   def misfire_range
-    1..[5 - ammo.quality, 1].max
+    1..[5 - (ammo.quality + reliability), 1].max
   end
 
   def misfired?(roll:)
