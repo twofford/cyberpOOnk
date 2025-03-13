@@ -4,16 +4,28 @@ require 'spec_helper'
 
 RSpec.describe Gun do
   describe '#misfire_range' do
-    let(:bad_ammo) { Ammo.new(damage_dice: D6, crit_multiplier: 2, quality: -3) }
-    let(:good_ammo) { Ammo.new(damage_dice: D6, crit_multiplier: 2, quality: 3) }
-    let(:average_ammo) { Ammo.new(damage_dice: D6, crit_multiplier: 2, quality: 0) }
-    let(:bad_gun) { described_class.new(ammo: bad_ammo, max_range: 50, reliability: -3) }
-    let(:good_gun) { described_class.new(ammo: good_ammo, max_range: 50, reliability: 3) }
-    let(:average_gun) { described_class.new(ammo: average_ammo, max_range: 50, reliability: 0) }
+    let(:bad_gun) do
+      described_class.new(ammo: Ammo.new(damage_dice: D6, crit_multiplier: 2, quality: -3), max_range: 50,
+                          reliability: -3)
+    end
+    let(:good_gun) do
+      described_class.new(ammo: Ammo.new(damage_dice: D6, crit_multiplier: 2, quality: 3), max_range: 50,
+                          reliability: 3)
+    end
+    let(:average_gun) do
+      described_class.new(ammo: Ammo.new(damage_dice: D6, crit_multiplier: 2, quality: 0), max_range: 50,
+                          reliability: 0)
+    end
 
-    it 'is between 1 and 11' do
+    it 'is between 1 and 11 when reliability and ammo quality are at minimum' do
       expect(bad_gun.send(:misfire_range)).to eq(1..11)
+    end
+
+    it 'is between 1 and 1 when reliability and ammo quality are at maximum' do
       expect(good_gun.send(:misfire_range)).to eq(1..1)
+    end
+
+    it 'is between 1 and 5 when reliability and ammo quality are average' do
       expect(average_gun.send(:misfire_range)).to eq(1..5)
     end
   end
