@@ -59,4 +59,8 @@ class Attack < Check
   def akimbo
     -10
   end
+
+  def aimed
+    + 10
+  end
 end
