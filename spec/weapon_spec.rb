@@ -26,7 +26,7 @@ RSpec.describe Weapon do
       # Max range: 100 = * 2.25 cost
       # Reliability: 1 = * 1.25 cost
       # 150,000 * 3 * 0.75 * 2.25 * 1.25 = 949218.75
-      # To nearest hundred = 949200
+      # To nearest hundred = 949,200
       it 'calculates the price with ammo quality, max range and reliability' do
         expect(weapon.calculate_price).to eq(949_200)
       end
