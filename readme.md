@@ -143,3 +143,14 @@ Barrier, Camera, Cyberware, Door, Drone, File, Machine, Program, Sensor, Transmi
 ### Verbs
 
 Activate, Analyze, Append, Blind, Deactivate, Decrypt, Defend, Delude, Erase, Find, Ghost, Glitch, Hijack, Kill, Lock, Paralyze, Replace, Sabotage, Sense, Siege, Silence, Stun, Terminate, Unlock
+
+## TODOS
+
+1. Design Heat system
+2. Implement Luck stat
+3. Design Humanity system
+4. Create Lifepaths/Character Generation
+5. Create Feats
+6. Design Cover system
+7. Create armor, weapons, items, cyberdecks, mods
+8. Update combat flowchart
