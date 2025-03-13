@@ -30,44 +30,44 @@ To make a check, the GM determines the Difficulty Level (DL): Easy, Medium, Hard
 <tbody>
 <tr>
 <td colspan="2"></td>
-<td colspan="3" style='text-align:center; vertical-align:middle'>Degree of Success</td>
+<td colspan="3">Degree of Success</td>
 </tr>
 <tr>
 <td rowspan="6">Difficulty</td>
 <td></td>
-<td style='text-align:center; vertical-align:middle'>Failure</td>
-<td style='text-align:center; vertical-align:middle'>Partial Success</td>
-<td style='text-align:center; vertical-align:middle'>Full Success</td>
+<td>Failure</td>
+<td>Partial Success</td>
+<td>Full Success</td>
 </tr>
 <tr>
 <td style='text-align:right; vertical-align:middle'>Easy</td>
-<td style='text-align:center; vertical-align:middle'>&le; 5</td>
-<td style='text-align:center; vertical-align:middle'>6-15</td>
-<td style='text-align:center; vertical-align:middle'>&ge; 16</td>
+<td>&le; 5</td>
+<td>6-15</td>
+<td>&ge; 16</td>
 </tr>
 <tr>
 <td style='text-align:right; vertical-align:middle'>Medium</td>
-<td style='text-align:center; vertical-align:middle'>&le; 10</td>
-<td style='text-align:center; vertical-align:middle'>11-20</td>
-<td style='text-align:center; vertical-align:middle'>&ge; 21</td>
+<td>&le; 10</td>
+<td>11-20</td>
+<td>&ge; 21</td>
 </tr>
 <tr>
 <td style='text-align:right; vertical-align:middle'>Hard</td>
-<td style='text-align:center; vertical-align:middle'>&le; 15</td>
-<td style='text-align:center; vertical-align:middle'>16-25</td>
-<td style='text-align:center; vertical-align:middle'>&ge; 26</td>
+<td>&le; 15</td>
+<td>16-25</td>
+<td>&ge; 26</td>
 </tr>
 <tr>
 <td style='text-align:right; vertical-align:middle'>Very Hard</td>
-<td style='text-align:center; vertical-align:middle'>&le; 20</td>
-<td style='text-align:center; vertical-align:middle'>21-30</td>
-<td style='text-align:center; vertical-align:middle'>&ge; 31</td>
+<td>&le; 20</td>
+<td>21-30</td>
+<td>&ge; 31</td>
 </tr>
 <tr>
 <td style='text-align:right; vertical-align:middle'>Nigh Impossible</td>
-<td style='text-align:center; vertical-align:middle'>&le; 25</td>
-<td style='text-align:center; vertical-align:middle'>26-35</td>
-<td style='text-align:center; vertical-align:middle'>&ge; 36</td>
+<td>&le; 25</td>
+<td>26-35</td>
+<td>&ge; 36</td>
 </tr>
 </tbody>
 </table>
